@@ -4,7 +4,7 @@ Lightweight system metrics agent for OpsCtl. Pushes heartbeat and resource utili
 
 ## What It Collects
 
-CPU, memory, swap, disk, network, uptime, and optionally Docker container counts (running/total).
+CPU, memory, swap, disk, network, uptime, and Docker container counts (running/total).
 
 ## How It Works
 
