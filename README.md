@@ -1,6 +1,6 @@
 # opsctl-pulse
 
-Lightweight system metrics agent for [OpsCtl](https://github.com/opsctl-pub). Pushes heartbeat and resource utilization to OpsCtl over an outbound-only connection.
+Lightweight system metrics agent for OpsCtl. Pushes heartbeat and resource utilization to OpsCtl over an outbound-only connection.
 
 ## What It Collects
 
