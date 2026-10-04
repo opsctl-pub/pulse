@@ -3,6 +3,8 @@ package payload
 type Snapshot struct {
 	OS                string
 	Kernel            string
+	Architecture      string
+	Variant           string
 	CPUUser           float64
 	CPUSystem         float64
 	CPUIdle           float64
@@ -34,6 +36,8 @@ type Payload struct {
 	PulseIntervalSeconds int     `json:"pulse_interval_seconds"`
 	OS                   string  `json:"os,omitempty"`
 	Kernel               string  `json:"kernel,omitempty"`
+	Architecture         string  `json:"architecture"`
+	Variant              string  `json:"variant,omitempty"`
 	CPUUser              float64 `json:"cpu_user"`
 	CPUSystem            float64 `json:"cpu_system"`
 	CPUIdle              float64 `json:"cpu_idle"`
@@ -66,6 +70,8 @@ func Build(version string, intervalSeconds int, snapshot Snapshot) Payload {
 		PulseIntervalSeconds: intervalSeconds,
 		OS:                   snapshot.OS,
 		Kernel:               snapshot.Kernel,
+		Architecture:         snapshot.Architecture,
+		Variant:              snapshot.Variant,
 		CPUUser:              snapshot.CPUUser,
 		CPUSystem:            snapshot.CPUSystem,
 		CPUIdle:              snapshot.CPUIdle,

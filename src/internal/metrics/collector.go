@@ -3,6 +3,7 @@ package metrics
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	gopsutilcpu "github.com/shirou/gopsutil/v4/cpu"
@@ -80,9 +81,12 @@ func (c *GopsutilCollector) Collect(ctx context.Context) (payload.Snapshot, erro
 		bytesRecv += stat.BytesRecv
 	}
 
+	architecture, variant := kernelPlatform(hostInfo.KernelArch)
 	return payload.Snapshot{
 		OS:                hostInfo.OS,
 		Kernel:            hostInfo.KernelVersion,
+		Architecture:      architecture,
+		Variant:           variant,
 		CPUUser:           cpuPercentages.User,
 		CPUSystem:         cpuPercentages.System,
 		CPUIdle:           cpuPercentages.Idle,
@@ -106,6 +110,19 @@ func (c *GopsutilCollector) Collect(ctx context.Context) (payload.Snapshot, erro
 		NetworkBytesRecv:  bytesRecv,
 		UptimeSeconds:     hostInfo.Uptime,
 	}, nil
+}
+
+func kernelPlatform(value string) (string, string) {
+	switch strings.ToLower(value) {
+	case "x86_64", "amd64":
+		return "amd64", ""
+	case "aarch64", "arm64":
+		return "arm64", ""
+	case "armv7l":
+		return "arm", "v7"
+	default:
+		return "", ""
+	}
 }
 
 type cpuBreakdown struct {
