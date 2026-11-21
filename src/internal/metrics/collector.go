@@ -109,6 +109,7 @@ func (c *GopsutilCollector) Collect(ctx context.Context) (payload.Snapshot, erro
 		NetworkBytesSent:  bytesSent,
 		NetworkBytesRecv:  bytesRecv,
 		UptimeSeconds:     hostInfo.Uptime,
+		KernelOOM:         collectKernelOOM(ctx),
 	}, nil
 }
 

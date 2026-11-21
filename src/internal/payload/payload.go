@@ -1,5 +1,12 @@
 package payload
 
+import "time"
+
+type KernelOOM struct {
+	ContainerID string    `json:"container_id"`
+	OccurredAt  time.Time `json:"occurred_at"`
+}
+
 type Snapshot struct {
 	OS                string
 	Kernel            string
@@ -29,39 +36,41 @@ type Snapshot struct {
 	UptimeSeconds     uint64
 	ContainersRunning *int
 	ContainersTotal   *int
+	KernelOOM         *KernelOOM
 }
 
 type Payload struct {
-	PulseVersion         string  `json:"pulse_version"`
-	PulseIntervalSeconds int     `json:"pulse_interval_seconds"`
-	OS                   string  `json:"os,omitempty"`
-	Kernel               string  `json:"kernel,omitempty"`
-	Architecture         string  `json:"architecture"`
-	Variant              string  `json:"variant,omitempty"`
-	CPUUser              float64 `json:"cpu_user"`
-	CPUSystem            float64 `json:"cpu_system"`
-	CPUIdle              float64 `json:"cpu_idle"`
-	CPUIOWait            float64 `json:"cpu_iowait"`
-	CPUSteal             float64 `json:"cpu_steal"`
-	CPUCount             int     `json:"cpu_count"`
-	Load1                float64 `json:"load_1"`
-	Load5                float64 `json:"load_5"`
-	Load15               float64 `json:"load_15"`
-	MemoryTotal          uint64  `json:"memory_total_bytes"`
-	MemoryUsed           uint64  `json:"memory_used_bytes"`
-	MemoryAvailable      uint64  `json:"memory_available_bytes"`
-	MemoryPercent        float64 `json:"memory_percent"`
-	SwapTotal            uint64  `json:"swap_total_bytes"`
-	SwapUsed             uint64  `json:"swap_used_bytes"`
-	DiskTotal            uint64  `json:"disk_total_bytes"`
-	DiskUsed             uint64  `json:"disk_used_bytes"`
-	DiskPercent          float64 `json:"disk_percent"`
-	DiskInodesPercent    float64 `json:"disk_inodes_percent"`
-	BytesSentTotal       uint64  `json:"bytes_sent_total"`
-	BytesRecvTotal       uint64  `json:"bytes_recv_total"`
-	UptimeSeconds        uint64  `json:"uptime_seconds"`
-	ContainersRunning    *int    `json:"containers_running,omitempty"`
-	ContainersTotal      *int    `json:"containers_total,omitempty"`
+	PulseVersion         string     `json:"pulse_version"`
+	PulseIntervalSeconds int        `json:"pulse_interval_seconds"`
+	OS                   string     `json:"os,omitempty"`
+	Kernel               string     `json:"kernel,omitempty"`
+	Architecture         string     `json:"architecture"`
+	Variant              string     `json:"variant,omitempty"`
+	CPUUser              float64    `json:"cpu_user"`
+	CPUSystem            float64    `json:"cpu_system"`
+	CPUIdle              float64    `json:"cpu_idle"`
+	CPUIOWait            float64    `json:"cpu_iowait"`
+	CPUSteal             float64    `json:"cpu_steal"`
+	CPUCount             int        `json:"cpu_count"`
+	Load1                float64    `json:"load_1"`
+	Load5                float64    `json:"load_5"`
+	Load15               float64    `json:"load_15"`
+	MemoryTotal          uint64     `json:"memory_total_bytes"`
+	MemoryUsed           uint64     `json:"memory_used_bytes"`
+	MemoryAvailable      uint64     `json:"memory_available_bytes"`
+	MemoryPercent        float64    `json:"memory_percent"`
+	SwapTotal            uint64     `json:"swap_total_bytes"`
+	SwapUsed             uint64     `json:"swap_used_bytes"`
+	DiskTotal            uint64     `json:"disk_total_bytes"`
+	DiskUsed             uint64     `json:"disk_used_bytes"`
+	DiskPercent          float64    `json:"disk_percent"`
+	DiskInodesPercent    float64    `json:"disk_inodes_percent"`
+	BytesSentTotal       uint64     `json:"bytes_sent_total"`
+	BytesRecvTotal       uint64     `json:"bytes_recv_total"`
+	UptimeSeconds        uint64     `json:"uptime_seconds"`
+	ContainersRunning    *int       `json:"containers_running,omitempty"`
+	ContainersTotal      *int       `json:"containers_total,omitempty"`
+	KernelOOM            *KernelOOM `json:"kernel_oom,omitempty"`
 }
 
 func Build(version string, intervalSeconds int, snapshot Snapshot) Payload {
@@ -96,5 +105,6 @@ func Build(version string, intervalSeconds int, snapshot Snapshot) Payload {
 		UptimeSeconds:        snapshot.UptimeSeconds,
 		ContainersRunning:    snapshot.ContainersRunning,
 		ContainersTotal:      snapshot.ContainersTotal,
+		KernelOOM:            snapshot.KernelOOM,
 	}
 }
